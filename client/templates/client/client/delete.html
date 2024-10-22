@@ -1,0 +1,23 @@
+{% extends "utils/base.html" %}
+{% block content %}
+    <h1>Delete Client</h1>
+    <p>Are you sure you want to delete the client "{{ object.email }}"?</p>
+    {% if object.vehicle_set.all %}
+        <p>It will also delete all the vehicles associated with this client.</p>
+        <ul>
+            {% for vehicle in object.vehicle_set.all %}<li>{{ vehicle.license_plate }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-grid gap-2 d-sm-flex">
+            <a class="btn btn-secondary" href="{% url 'client:list_client' %}">
+                <i class="fas fa-arrow-left"></i>
+            Go back</a>
+            <button class="btn btn-danger" type="submit">
+                <i class="fas fa-trash"></i>
+                Delete
+            </button>
+        </div>
+    </form>
+{% endblock content %}
