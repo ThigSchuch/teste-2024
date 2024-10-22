@@ -9,7 +9,7 @@ License Plate Management System
 # How to run the tests
 1. Run the tests using the command `pytest`
 
-# Ho the project is structured
+# How the project is structured
 The project is structured in the following way:
 - `base`: Contains the Django settings and the base urls
 - `client`: An App that contains the home view, the Client model and its uses
