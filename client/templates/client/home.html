@@ -1,7 +1,7 @@
 {% extends "utils/base.html" %}
 {% block content %}
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <a class="btn btn-primary" href="#">Create Client</a>
+        <a class="btn btn-primary" href="{% url 'client:create_client' %}">Create Client</a>
         <a class="btn btn-primary" href="{% url 'client:list_client' %}">List Clients</a>
     </div>
 {% endblock content %}

@@ -1,0 +1,106 @@
+{% extends "utils/base.html" %}
+{% block content %}
+    <h1>
+        {% if client.pk %}
+            Edit Client
+        {% else %}
+            Create Client
+        {% endif %}
+    </h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% with formsets.vehicles as formset %}
+            {{ formset.management_form }}
+            <script type="text/html" id="vehicles-template">
+                <tr id="vehicles-__prefix__">  
+                    {% for fields in formset.empty_form.hidden_fields %}
+                        {{ fields }}
+                    {% endfor %}
+                    {% for fields in formset.empty_form.visible_fields %}
+                        {% if fields.name != "DELETE" %}
+                            <td>{{ fields }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <button type="button" class="btn btn-danger soft-delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </script>
+            <div class="card mt-4 mb-4">
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="text-secondary">
+                            <th class="col-11">License Plate</th>
+                            <th class="col-1 text-center">Delete</th>
+                        </thead>
+                        <tbody id="item-vehicles">
+                            {% for error in formset.non_form_errors %}{{ error }}{% endfor %}
+                            {% for form_formset in formset %}
+                                {{ form_formset.management_form }}
+                                <tr id="vehicles-{{ forloop.counter0 }}">
+                                    {{ form_formset.id }}
+                                    {% for field in form_formset.visible_fields %}
+                                        <td {% if field.name == "DELETE" %}class="text-center"{% endif %}>
+                                            {% if field.name == "DELETE" %}
+                                                {% if form_formset.instance.pk %}
+                                                    {{ field }}
+                                                {% else %}
+                                                    <button type="button" class="btn btn-danger soft-delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                {% endif %}
+                                            {% else %}
+                                                {{ field }}
+                                                {% for error in field.errors %}{{ error }}{% endfor %}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a href="#"
+                       id="add-vehicle-button"
+                       class="btn btn-secondary add-vehicles">
+                        <i class="fas fa-plus"></i>
+                    Add More</a>
+                </div>
+            </div>
+        {% endwith %}
+        <div class="d-grid gap-2 d-sm-flex">
+            <a class="btn btn-secondary" href="{% url 'client:list_client' %}">
+                <i class="fas fa-arrow-left"></i>
+                Go back
+            </a>
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-save"></i>
+                Save
+            </button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Add new vehicle
+            $('.add-vehicles').click(function(ev) {
+                var count = $('#item-vehicles').children().length;
+                var tmplMarkup = $('#vehicles-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#item-vehicles').append(compiledTmpl);
+                $('#id_vehicle_set-TOTAL_FORMS').attr('value', count+1);
+            });
+
+            // Remove vehicle
+            $('#item-vehicles').on('click', '.soft-delete', function(ev) {
+                var count = $('#item-vehicles').children().length;
+                var row = $(this).closest('tr');
+                row.remove();
+                $('#id_vehicle_set-TOTAL_FORMS').attr('value', count-1);
+            });
+        });
+    </script>
+{% endblock content %}

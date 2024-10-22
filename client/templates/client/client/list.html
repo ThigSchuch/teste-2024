@@ -20,7 +20,9 @@
                     </td>
                     <td class="text-center col-2">
                         <div class="btn-group" role="group">
-                            <a class="btn btn-light" href="#" title="Update">
+                            <a class="btn btn-light"
+                               href="{% url 'client:update_client' client.pk %}"
+                               title="Update">
                                 <i class="fas fa-edit text-warning"></i>
                             </a>
                             <a class="btn btn-light"
@@ -38,7 +40,7 @@
         <a class="btn btn-secondary" href="{% url 'home' %}">
             <i class="fas fa-arrow-left"></i>
         Go back</a>
-        <a class="btn btn-primary" href="#">
+        <a class="btn btn-primary" href="{% url 'client:create_client' %}">
             <i class="fas fa-plus"></i>
         Add</a>
     </div>
