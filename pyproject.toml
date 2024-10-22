@@ -11,10 +11,17 @@ django = "^5.1.2"
 
 
 [tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
 black = "^24.10.0"
 djlint = "^1.35.2"
 django-debug-toolbar = "^4.4.6"
+pytest-django = "^4.9.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+DJANGO_SETTINGS_MODULE = "base.settings"

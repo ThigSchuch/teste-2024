@@ -6,6 +6,9 @@ License Plate Management System
 2. You can use `Poetry` or `pip` to install the dependencies
 3. Run the project using the command `python manage.py runserver`
 
+# How to run the tests
+1. Run the tests using the command `pytest`
+
 # Ho the project is structured
 The project is structured in the following way:
 - `base`: Contains the Django settings and the base urls
