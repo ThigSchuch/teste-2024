@@ -1,0 +1,27 @@
+{% extends "utils/base.html" %}
+{% block content %}
+    <h1>Clients</h1>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr class="table-secondary">
+                <th>Email</th>
+                <th>Vehicles</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in object_list %}
+                <tr>
+                    <td>{{ client.email }}</td>
+                    <td>
+                        <ul>
+                            {% for vehicle in client.vehicle_set.all %}<li>{{ vehicle.license_plate }}</li>{% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" href="{% url 'home' %}">
+        <i class="fas fa-arrow-left"></i>
+    Go back</a>
+{% endblock content %}
